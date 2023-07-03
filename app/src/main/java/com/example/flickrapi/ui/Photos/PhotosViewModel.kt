@@ -18,35 +18,65 @@ import javax.inject.Inject
 class PhotosViewModel @Inject constructor(private val getPhotosUseCase: getPhotosUseCase) : ViewModel() {
 
     private var _AllPhotos = mutableStateOf(PhotosState())
+
+    private var cachePhotos = PhotosState()
+    private var isSearchStarting = true
+    var isSearching = mutableStateOf(false)
+
+    fun searchItems(query: String) {
+        var items = _AllPhotos.value
+        val listSearch = if(isSearchStarting){
+            items
+        }else{
+            cachePhotos
+        }
+        // Replace with your API call to fetch items
+        getPhotosUseCase().onEach {
+            if (query.isEmpty()) {
+                items = cachePhotos
+                isSearching.value = false
+                isSearchStarting = true
+                return@onEach
+            }
+            val res =  listSearch.photos?.filter { it.title.contains(query.trim(),
+                ignoreCase = true) || it.owner.contains(query.trim()) }
+
+            _AllPhotos.value.photos = res
+            isSearching.value = true
+            Log.d("UYUY",_AllPhotos.value.photos.toString())
+            when(it){
+                is Resource.Success -> {
+                    if (isSearchStarting) {
+                        cachePhotos = _AllPhotos.value
+                        isSearchStarting = false
+                    }
+                     var result = it.data?.photos?.photo
+                         result = res
+                        _AllPhotos.value = PhotosState(photos = result)
+
+                }
+                is Resource.Error -> {
+                    _AllPhotos.value = PhotosState(error = it.message ?: "Something is wrong")
+                }is Resource.Loading -> {
+                _AllPhotos.value = PhotosState(isLoading = true)
+            }
+            }
+        }.launchIn(viewModelScope)
+
+    }
+
     var Photos: State<PhotosState> = _AllPhotos
 
     init {
         getPhotos()
     }
 
-    fun searchItems(query: String) {
-        val items = _AllPhotos.value// Replace with your API call to fetch items
-        viewModelScope.launch(Dispatchers.IO) {
-
-            val filtered = if (query.isEmpty()) {
-                items.photos?.photos?.photo
-            } else {
-                items.photos?.photos?.photo?.filter { it.title.contains(query, ignoreCase = true) }
-
-            }
-            if (filtered != null) {
-
-                _AllPhotos.value.photos?.photos?.photo = filtered
-                Log.d("UYUY",_AllPhotos.value.toString())
-            }
-        }
-    }
-
     private fun getPhotos(){
         getPhotosUseCase().onEach {
             when(it){
                 is Resource.Success -> {
-                    _AllPhotos.value = PhotosState(photos = it.data)
+
+                    _AllPhotos.value = PhotosState(photos = it.data?.photos?.photo)
                 }
                 is Resource.Error -> {
                     _AllPhotos.value = PhotosState(error = it.message ?: "Something is wrong")
