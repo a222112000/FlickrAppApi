@@ -1,5 +1,5 @@
 <table>
-  <tr><th></th><th></th></tr>
+  <tr><th>Users</th><th>User Photos</th><th>Search</th></tr>
   <tr>
     <td>
       <img width="377" alt="Screenshot 2023-07-02 at 21 01 44" src="https://github.com/a222112000/FlickrAppApi/assets/26028054/cccea141-552a-486d-89e1-ef50422c0efa">
