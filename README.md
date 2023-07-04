@@ -17,7 +17,9 @@
   <td>
     <img width="396" alt="Screenshot 2023-07-03 at 09 35 42" src="https://github.com/a222112000/FlickrAppApi/assets/26028054/ee1dff2a-b4f6-468a-b0a4-9b5437bacdd4">
   </td>
-    <td></td>
+    <td>
+      <img width="386" alt="Screenshot 2023-07-04 at 08 29 02" src="https://github.com/a222112000/FlickrAppApi/assets/26028054/63b0594d-1315-4140-9698-915d003d1da6">
+    </td>
   </tr>
 </table>
 
