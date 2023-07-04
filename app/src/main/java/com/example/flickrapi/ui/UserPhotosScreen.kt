@@ -65,7 +65,7 @@ fun UserPhotosScreen(viewModel: UserPhotosViewModel = hiltViewModel()) {
                 .fillMaxSize()
                 .padding(1.dp)
         ) {
-                LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 228.dp)) {
+            LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 138.dp)) {
                     items(photos.photo) { photo ->
                         Box {
                             Surface(
@@ -81,7 +81,7 @@ fun UserPhotosScreen(viewModel: UserPhotosViewModel = hiltViewModel()) {
                                     modifier = Modifier
                                         .align(Alignment.Center)
                                         .fillMaxWidth()
-                                        .height(300.dp),
+                                        .height(100.dp),
                                     contentScale = ContentScale.FillWidth,
                                     model =
                                     "https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg",
