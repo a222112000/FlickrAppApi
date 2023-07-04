@@ -20,6 +20,16 @@
     <td>
       <img width="386" alt="Screenshot 2023-07-04 at 08 29 02" src="https://github.com/a222112000/FlickrAppApi/assets/26028054/63b0594d-1315-4140-9698-915d003d1da6">
     </td>
+  </tr><tr>
+    <td>
+      <img width="387" alt="Screenshot 2023-07-04 at 11 55 54" src="https://github.com/a222112000/FlickrAppApi/assets/26028054/ca171d3a-87e9-42d5-9e9a-8af4bd1504fc">
+    </td>
+    <td>
+    <img width="392" alt="Screenshot 2023-07-04 at 11 55 43" src="https://github.com/a222112000/FlickrAppApi/assets/26028054/e596fc93-4cc3-41bc-81dc-d473631ea481">
+    </td>
+    <td>
+    <img width="386" alt="Screenshot 2023-07-04 at 11 56 36" src="https://github.com/a222112000/FlickrAppApi/assets/26028054/0793569e-3592-47fe-84de-f7fe8c146efa">
+    </td>
   </tr>
 </table>
 
