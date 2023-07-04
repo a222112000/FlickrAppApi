@@ -141,7 +141,7 @@ fun PhotosScreen(
                     .padding(horizontal = 0.dp, vertical = 0.dp)
                     .onFocusChanged {
                         val focus = it
-                        isHintDisplay = !focus.isFocused && text.isNotEmpty()
+                        isHintDisplay = focus.isFocused && text.isNotEmpty()
                     },
                 decorationBox = { innerTextField ->
                     Row(
@@ -164,7 +164,7 @@ fun PhotosScreen(
                         Spacer(modifier = Modifier.width(width = 1.dp))
                         Icon(
                             imageVector = Icons.Default.Search,
-                            contentDescription = "Search",
+                            contentDescription = "Search...",
                             tint = Color.Gray
                         )
 
