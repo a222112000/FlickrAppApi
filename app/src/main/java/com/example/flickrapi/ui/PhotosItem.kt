@@ -54,7 +54,7 @@ fun PhotosItem(
                 text = "User Id:${photo.owner} ",
                 style = TextStyle(
                     color = Color.Gray,
-                    fontSize = 24.sp,
+                    fontSize = 12.sp,
 
                     fontWeight = FontWeight.W800,
                     fontStyle = FontStyle.Italic,
@@ -63,12 +63,12 @@ fun PhotosItem(
                     fontFamily = FontFamily.Monospace,
                     shadow = Shadow(
                         color = Color.Black,
-                        offset = Offset(5f, 5f),
-                        blurRadius = 5f
+                        offset = Offset(1f, 1f),
+                        blurRadius = 1f
                     )
                 ),
                 overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(4.dp)
             )
             Column(modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally) {
@@ -76,7 +76,7 @@ fun PhotosItem(
                     text = "${photo.title} ",
                     style = TextStyle(
                         color = Color.Gray,
-                        fontSize = 20.sp,
+                        fontSize = 14.sp,
 
                         fontWeight = FontWeight.W800,
                         fontStyle = FontStyle.Italic,
@@ -100,13 +100,13 @@ fun PhotosItem(
                             .align(Alignment.Center)
                             .fillMaxWidth()
                             .background(color = MaterialTheme.colorScheme.onPrimaryContainer)
-                            .size(428.dp).border(
+                            .size(208.dp).border(
                                 width = 1.dp,
                                 color = Color.Red,
                                 shape = RoundedCornerShape(size = 1.dp)
                             )
-                            .clip(RoundedCornerShape(topEnd = 38.dp , topStart = 38.dp)),
-                        contentScale = ContentScale.Crop,
+                            .clip(RoundedCornerShape(topEnd = 1.dp , topStart = 1.dp)),
+                        contentScale = ContentScale.FillWidth,
                         model =
                         "https://farm${photo.farm}.staticflickr.com/${photo.server}/buddyicons/${photo.owner}_r.jpg",
 
