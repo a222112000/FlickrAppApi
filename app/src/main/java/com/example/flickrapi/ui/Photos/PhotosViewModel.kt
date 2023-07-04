@@ -43,7 +43,7 @@ class PhotosViewModel @Inject constructor(private val getPhotosUseCase: getPhoto
 
             _AllPhotos.value.photos = res
             isSearching.value = true
-            Log.d("UYUY",_AllPhotos.value.photos.toString())
+
             when(it){
                 is Resource.Success -> {
                     if (isSearchStarting) {
@@ -53,6 +53,7 @@ class PhotosViewModel @Inject constructor(private val getPhotosUseCase: getPhoto
                      var result = it.data?.photos?.photo
                          result = res
                         _AllPhotos.value = PhotosState(photos = result)
+                    Log.d("UYUY",_AllPhotos.value.photos.toString())
 
                 }
                 is Resource.Error -> {

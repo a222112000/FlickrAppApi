@@ -49,9 +49,10 @@ fun UserPhotosScreen(viewModel: UserPhotosViewModel = hiltViewModel()) {
             BottomAppBar(
                 content = {
                     LazyColumn {
+
                         item {
 
-                            Text(modifier = Modifier.fillMaxWidth().align(CenterVertically), textAlign = TextAlign.Center,text = "Pages are: ${photos.pages} \n All Photos are:${photos.total}",
+                            Text(modifier = Modifier.fillMaxWidth().align(CenterVertically), textAlign = TextAlign.Center,text = "User ${photos.photo.get(0).owner}\nPages are: ${photos.pages} \n All Photos are:${photos.total}",
 
                                 )
                         }

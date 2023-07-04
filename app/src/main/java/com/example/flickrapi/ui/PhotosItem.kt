@@ -78,7 +78,7 @@ fun PhotosItem(
                         fontWeight = FontWeight.W800,
                         fontStyle = FontStyle.Italic,
                         background = Color.Transparent,
-                        fontFamily = FontFamily.Cursive,
+                        fontFamily = FontFamily.Serif,
 
                         ),
                     overflow = TextOverflow.Ellipsis,
