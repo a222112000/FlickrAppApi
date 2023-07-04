@@ -1,6 +1,8 @@
 package com.example.flickrapi.ui
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -89,20 +92,23 @@ fun PhotosItem(
                 Surface(modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter)
-                    .padding(start = 1.dp, end = 1.dp, bottom = 1.dp),
-                    border = BorderStroke(1.dp, Color.Gray),
-                    shape = RoundedCornerShape(12.dp)
+
                 ) {
                     AsyncImage(
                         contentDescription = photo.title,
                         modifier = Modifier
                             .align(Alignment.Center)
                             .fillMaxWidth()
-                            .size(128.dp)
-                            .clip(CircleShape),
-                        contentScale = ContentScale.Fit,
+                            .background(color = MaterialTheme.colorScheme.onPrimaryContainer)
+                            .size(428.dp).border(
+                                width = 1.dp,
+                                color = Color.Red,
+                                shape = RoundedCornerShape(size = 1.dp)
+                            )
+                            .clip(RoundedCornerShape(topEnd = 38.dp , topStart = 38.dp)),
+                        contentScale = ContentScale.Crop,
                         model =
-                        "https://farm${photo.farm}.staticflickr.com/${photo.server}/buddyicons/${photo.owner}.jpg",
+                        "https://farm${photo.farm}.staticflickr.com/${photo.server}/buddyicons/${photo.owner}_r.jpg",
 
                         )
 //
