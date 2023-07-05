@@ -38,10 +38,12 @@ class PhotosViewModel @Inject constructor(private val getPhotosUseCase: getPhoto
                 isSearchStarting = true
                 return@onEach
             }
-            val res =  listSearch.photos?.filter { it.title.contains(query.trim(),
+            val res =  listSearch.photos?.photos?.photo?.filter { it.title.contains(query.trim(),
                 ignoreCase = true) || it.owner.contains(query.trim()) }
 
-            _AllPhotos.value.photos = res
+            if (res != null) {
+                _AllPhotos.value.photos?.photos?.photo = res
+            }
             isSearching.value = true
 
             when(it){
@@ -50,8 +52,8 @@ class PhotosViewModel @Inject constructor(private val getPhotosUseCase: getPhoto
                         cachePhotos = _AllPhotos.value
                         isSearchStarting = false
                     }
-                     var result = it.data?.photos?.photo
-                         result = res
+                     var result = it.data
+                         //result = res
                         _AllPhotos.value = PhotosState(photos = result)
                     Log.d("UYUY",_AllPhotos.value.photos.toString())
 
@@ -77,7 +79,7 @@ class PhotosViewModel @Inject constructor(private val getPhotosUseCase: getPhoto
             when(it){
                 is Resource.Success -> {
 
-                    _AllPhotos.value = PhotosState(photos = it.data?.photos?.photo)
+                    _AllPhotos.value = PhotosState(photos = it.data)
                 }
                 is Resource.Error -> {
                     _AllPhotos.value = PhotosState(error = it.message ?: "Something is wrong")

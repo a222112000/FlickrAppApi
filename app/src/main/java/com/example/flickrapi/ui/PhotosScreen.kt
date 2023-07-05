@@ -90,13 +90,29 @@ fun PhotosScreen(
 
             ) {
                 LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 138.dp)) {
+
                         state.photos?.let {
-                            items(it) {
+                            Log.d("PAGEXXX",state.photos?.photos?.page.toString())
+                            items(it.photos.photo) {
                                 PhotosItem(photo = it,
                                     onUserPhotoClick = { navController.navigate(Screen.UserPhotos.route + "/${it.owner}") }
                                 )
                             }
                         }
+                    if(state.isLoading){
+                        item {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center,
+                            ) {
+                                Text(text = "Pagination Loading")
+
+                                CircularProgressIndicator(color = Color.Black)
+                            }
+                        }
+                    }
                 }
                 if (state.error.isNotBlank()) {
                     Text(
