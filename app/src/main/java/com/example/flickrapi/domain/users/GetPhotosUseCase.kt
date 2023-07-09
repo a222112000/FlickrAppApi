@@ -1,21 +1,20 @@
-package com.example.flickrapi.domain
+package com.example.flickrapi.domain.users
 
-import android.util.Log
 import com.example.flickrapi.common.Resource
-import com.example.flickrapi.data.people.GetUserPhotos
+import com.example.flickrapi.data.allPhotos.GetPhotos
+import com.example.flickrapi.domain.Repository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class getUserPhotosUseCase @Inject constructor(private val repositoryPhotos: Repository) {
+class getPhotosUseCase @Inject constructor(private val repository: Repository) {
 
-    operator fun invoke(userId: String): Flow<Resource<GetUserPhotos>> = flow {
+    operator fun invoke(): Flow<Resource<GetPhotos>> = flow {
         try {
             emit(Resource.Loading())
-            val photos = repositoryPhotos.getUserPhotos(userId)
-            Log.d("PPPP",photos.toString())
+            val photos = repository.getPhotos(0)
             emit(Resource.Success(photos))
         }catch (e: HttpException){
             emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))

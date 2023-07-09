@@ -2,6 +2,7 @@ package com.example.flickrapi.ui
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,16 +29,25 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
+import com.example.flickrapi.ui.userPhotos.ImageDetails
 import com.example.flickrapi.ui.userPhotos.UserPhotosViewModel
+import kotlinx.coroutines.coroutineScope
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @OptIn(ExperimentalMaterial3Api::class)
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "SuspiciousIndentation")
 @Composable
-fun UserPhotosScreen(viewModel: UserPhotosViewModel = hiltViewModel()) {
+fun UserPhotosScreen(navController: NavController,viewModel: UserPhotosViewModel = hiltViewModel()) {
 
-    val state = viewModel.userPhotos.value
-    state.photos?.photos?.let { photos ->
+    val state = viewModel.userPhotos.value.photos?.flow?.collectAsLazyPagingItems()
+    val views = viewModel.userPhoto.value
+    val nav = rememberNavController()
+
     Scaffold(modifier = Modifier.fillMaxWidth(),
 
     bottomBar = {
@@ -52,7 +62,10 @@ fun UserPhotosScreen(viewModel: UserPhotosViewModel = hiltViewModel()) {
 
                         item {
 
-                            Text(modifier = Modifier.fillMaxWidth().align(CenterVertically), textAlign = TextAlign.Center,text = "User ${photos.photo.get(0).owner}\nPages are: ${photos.pages} \n All Photos are:${photos.total}",
+                            Text(modifier = Modifier
+                                .fillMaxWidth()
+                                .align(CenterVertically), textAlign = TextAlign.Center,text = "User ${views.photos?.photos?.photo?.get(0)?.owner}\n" +
+                                    "All pages: ${views.photos?.photos?.pages} \n total photos: ${views.photos?.photos?.total} \n Per Page: ${views.photos?.photos?.perpage}",
 
                                 )
                         }
@@ -66,7 +79,8 @@ fun UserPhotosScreen(viewModel: UserPhotosViewModel = hiltViewModel()) {
                 .padding(1.dp)
         ) {
             LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 138.dp)) {
-                    items(photos.photo) { photo ->
+                state?.itemCount?.let {
+                    items(it) {index->
                         Box {
                             Surface(
                                 modifier = Modifier
@@ -77,23 +91,27 @@ fun UserPhotosScreen(viewModel: UserPhotosViewModel = hiltViewModel()) {
                                 shape = RoundedCornerShape(12.dp)
                             ) {
                                 AsyncImage(
-                                    contentDescription = photo.title,
+                                    contentDescription = state.get(index)?.title,
                                     modifier = Modifier
                                         .align(Alignment.Center)
                                         .fillMaxWidth()
-                                        .height(100.dp),
+                                        .height(100.dp)
+                                        .clickable {
+                                            navController.navigate(Screen.PhotoDetails.route+"/"+state[index]?.id+"/"+state[index]?.owner+"/"+state[index]?.farm+"/"+state[index]?.server+"/"+state[index]?.secret)
+                                        },
                                     contentScale = ContentScale.FillWidth,
                                     model =
-                                    "https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg",
+                                    "https://live.staticflickr.com/${state.get(index)?.server}/${state.get(index)?.id}_${state.get(index)?.secret}.jpg",
 
                                     )
                             }
                         }
                     }
                 }
-            if (state.error.isNotBlank()) {
+                }
+            if (views.error.isNotBlank()) {
                 Text(
-                    text = state.error,
+                    text = views.error,
                     color = MaterialTheme.colorScheme.error,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
@@ -102,7 +120,7 @@ fun UserPhotosScreen(viewModel: UserPhotosViewModel = hiltViewModel()) {
 
                 )
             }
-            if (state.isLoading) {
+            if (views.isLoading) {
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
@@ -113,6 +131,5 @@ fun UserPhotosScreen(viewModel: UserPhotosViewModel = hiltViewModel()) {
             }
 
         }
-    }
 }
 

@@ -4,8 +4,8 @@ import androidx.paging.Pager
 import com.example.flickrapi.data.allPhotos.GetPhotos
 import com.example.flickrapi.data.allPhotos.Photo
 
-data class PhotosState(
+data class GetPhotosState(
     val isLoading: Boolean = false,
-    var photos: Pager<Int, Photo>? = null,
+    var photos: List<Photo>? = null,
     val error: String = ""
 )
