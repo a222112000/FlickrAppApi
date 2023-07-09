@@ -2,7 +2,18 @@
   <tr><th>Users</th><th>User Photos</th><th>Search</th></tr>
   <tr>
     <td>
-      <img width="377" alt="Screenshot 2023-07-02 at 21 01 44" src="https://github.com/a222112000/FlickrAppApi/assets/26028054/cccea141-552a-486d-89e1-ef50422c0efa">
+      <img width="383" alt="Screenshot 2023-07-09 at 09 16 54" src="https://github.com/a222112000/FlickrAppApi/assets/26028054/2809b12d-fc37-4aaf-b3e1-370f7393a3d6">
+    </td>
+    <td>
+    <img width="407" alt="Screenshot 2023-07-09 at 09 17 04" src="https://github.com/a222112000/FlickrAppApi/assets/26028054/70f66f7b-fdc2-4744-983e-45e5e64d35ba">
+    </td>
+    <td>
+    <img width="390" alt="Screenshot 2023-07-09 at 09 17 14" src="https://github.com/a222112000/FlickrAppApi/assets/26028054/b0b6e164-de8c-4aaa-be09-4642e56c6237">
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <img width="396" alt="Screenshot 2023-07-09 at 09 17 55" src="https://github.com/a222112000/FlickrAppApi/assets/26028054/e5d59474-bb45-45ee-9556-3785a190698a">
     </td>
   <td>
     <img width="387" alt="Screenshot 2023-07-03 at 22 46 59" src="https://github.com/a222112000/FlickrAppApi/assets/26028054/db259452-00b2-46c8-9f74-77acf2ce75cf">
