@@ -98,14 +98,14 @@ fun PhotosScreen(
             color = MaterialTheme.colorScheme.onPrimaryContainer,
             modifier = Modifier.fillMaxSize()
         ) {
-            Column(modifier = Modifier.fillMaxWidth(), Arrangement.Center) {
+            Column(modifier = Modifier.fillMaxWidth().padding(top = 47.dp), Arrangement.Center) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
 
                 ) {
                     LazyVerticalGrid(
-                        columns = GridCells.Fixed(2),
+                        columns = GridCells.Fixed(1),
                         content = {
                             if (isSearching) {
                                 search.photos?.let {

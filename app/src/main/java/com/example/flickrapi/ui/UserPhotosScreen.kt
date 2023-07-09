@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -59,15 +60,12 @@ fun UserPhotosScreen(navController: NavController,viewModel: UserPhotosViewModel
             BottomAppBar(
                 content = {
                     LazyColumn {
-
                         item {
-
                             Text(modifier = Modifier
                                 .fillMaxWidth()
                                 .align(CenterVertically), textAlign = TextAlign.Center,text = "User ${views.photos?.photos?.photo?.get(0)?.owner}\n" +
                                     "All pages: ${views.photos?.photos?.pages} \n total photos: ${views.photos?.photos?.total} \n Per Page: ${views.photos?.photos?.perpage}",
-
-                                )
+                            )
                         }
                     }
                 })
@@ -96,10 +94,11 @@ fun UserPhotosScreen(navController: NavController,viewModel: UserPhotosViewModel
                                         .align(Alignment.Center)
                                         .fillMaxWidth()
                                         .height(100.dp)
+                                        .width(100.dp)
                                         .clickable {
                                             navController.navigate(Screen.PhotoDetails.route+"/"+state[index]?.id+"/"+state[index]?.owner+"/"+state[index]?.farm+"/"+state[index]?.server+"/"+state[index]?.secret)
                                         },
-                                    contentScale = ContentScale.FillWidth,
+                                    contentScale = ContentScale.Fit,
                                     model =
                                     "https://live.staticflickr.com/${state.get(index)?.server}/${state.get(index)?.id}_${state.get(index)?.secret}.jpg",
 
