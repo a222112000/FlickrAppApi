@@ -1,16 +1,20 @@
 package com.example.flickrapi.ui
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -28,6 +32,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -50,87 +55,97 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.flickrapi.data.allPhotos.Photo
 import com.example.flickrapi.ui.Photos.PhotosViewModel
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PhotosScreen(
     navController: NavController,
     viewModel: PhotosViewModel = hiltViewModel()
 ) {
-    val state = viewModel.Photos.value
+    val state = viewModel.Photos.value.photos?.flow?.collectAsLazyPagingItems()
+    val search = viewModel.getPhotos.value
     var filteredPhotos by remember { mutableStateOf(state) }
     var isSearching by remember { viewModel.isSearching }
+    var isLoading by remember {
+        viewModel.isLoading
+    }
 
-    Surface(color = MaterialTheme.colorScheme.onPrimaryContainer, modifier = Modifier.fillMaxSize()) {
-        Column(modifier = Modifier.fillMaxWidth(),Arrangement.Center) {
-            TopAppBar(
-                title = {
-                    Text(text = "Flickr APP", modifier = Modifier
+    Scaffold(topBar = {
+                TopAppBar(
+                    title = {
+                        Row(horizontalArrangement = Arrangement.SpaceBetween) {
+                            Text(
+                                text = "Flickr APP",
+                                modifier =Modifier.padding(top = 13.dp, end = 8.dp),
+                                style = TextStyle(color = Color.Black, fontSize = 27.sp),
+                                textAlign = TextAlign.Start,
+                            )
+                            SearchBar(
+                                hint = "Search...",
+
+                                ) {
+                                viewModel.searchItems(it)
+                            }
+                        }
+                    })
+    }, modifier = Modifier.fillMaxWidth()) {
+
+        Surface(
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Column(modifier = Modifier.fillMaxWidth(), Arrangement.Center) {
+                Box(
+                    modifier = Modifier
                         .fillMaxWidth()
-                        .padding(4.dp),
-                        style = TextStyle(color = Color.Black, fontSize = 27.sp),
-                        textAlign = TextAlign.Center,
+
+                ) {
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
+                        content = {
+                            if (isSearching) {
+                                search.photos?.let {
+                                    items(it) {
+                                        PhotosItem(photo = it,
+                                            onUserPhotoClick = { navController.navigate(Screen.UserPhotos.route + "/${it.owner}") }
+                                        )
+                                    }
+                                }
+                            } else if(!isLoading) {
+                                state?.itemCount?.let {
+                                    items(it) { index ->
+                                        state.get(index)?.let {
+                                            PhotosItem(photo = it,
+                                                onUserPhotoClick = { navController.navigate(Screen.UserPhotos.route + "/${it.owner}") }
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }, contentPadding = PaddingValues(16.dp)
                     )
-                })
-
-            SearchBar(
-                hint = "Search...",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 3.dp)
-            ) {
-                viewModel.searchItems(it)
-            }
-
-
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-
-            ) {
-                LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 138.dp)) {
-
-                        state.photos?.let {
-                            Log.d("PAGEXXX",state.photos?.photos?.page.toString())
-                            items(it.photos.photo) {
-                                PhotosItem(photo = it,
-                                    onUserPhotoClick = { navController.navigate(Screen.UserPhotos.route + "/${it.owner}") }
-                                )
-                            }
-                        }
-                    if(state.isLoading){
-                        item {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth(),
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.Center,
-                            ) {
-                                Text(text = "Pagination Loading")
-
-                                CircularProgressIndicator(color = Color.Black)
-                            }
-                        }
+                    if (viewModel.Photos.value.error.isNotBlank()) {
+                        Text(
+                            text = viewModel.Photos.value.error,
+                            color = MaterialTheme.colorScheme.error,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 20.dp)
+                                .align(Alignment.Center)
+                        )
+                    }
+                    if (viewModel.Photos.value.isLoading) {
+                        CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                     }
                 }
-                if (state.error.isNotBlank()) {
-                    Text(
-                        text = state.error,
-                        color = MaterialTheme.colorScheme.error,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 20.dp)
-                            .align(Alignment.Center)
-                    )
-                }
-                if (state.isLoading) {
-                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-                }
             }
-        }
 
+        }
     }
 }
 
@@ -180,6 +195,9 @@ fun PhotosScreen(
                             .padding(all = 16.dp), // inner padding
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
+                        if(text.isEmpty()){
+                            Text(text = "Search...", style = TextStyle(color = Color.Gray, fontSize = 18.sp))
+                        }
                         innerTextField()
                         Spacer(modifier = Modifier.width(width = 1.dp))
                         Icon(
@@ -191,10 +209,6 @@ fun PhotosScreen(
                     }
                 }
             )
-            if(isHintDisplay){
-                Text(text = hint, color = Color.LightGray, modifier = Modifier.padding(
-                    horizontal = 20.dp, vertical = 12.dp
-                ))
-            }
+
         }
     }
