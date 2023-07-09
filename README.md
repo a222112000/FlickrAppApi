@@ -58,3 +58,4 @@
 # DI
 # URL Query
 # OAuth authentication key
+# Pagination
