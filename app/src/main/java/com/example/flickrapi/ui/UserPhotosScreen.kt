@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.CircularProgressIndicator
@@ -33,11 +32,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
-import com.example.flickrapi.ui.userPhotos.ImageDetails
 import com.example.flickrapi.ui.userPhotos.UserPhotosViewModel
-import kotlinx.coroutines.coroutineScope
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "SuspiciousIndentation")
@@ -76,7 +71,7 @@ fun UserPhotosScreen(navController: NavController,viewModel: UserPhotosViewModel
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(1.dp)
+                .padding(bottom = 8.dp)
         ) {
             LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 138.dp)) {
                 state?.itemCount?.let {

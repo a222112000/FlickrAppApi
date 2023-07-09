@@ -98,7 +98,7 @@ fun PhotosScreen(
             color = MaterialTheme.colorScheme.onPrimaryContainer,
             modifier = Modifier.fillMaxSize()
         ) {
-            Column(modifier = Modifier.fillMaxWidth(), Arrangement.Center) {
+            Column(modifier = Modifier.fillMaxWidth().padding(top = 48.dp), Arrangement.Top) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
